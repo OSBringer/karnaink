@@ -1,0 +1,17 @@
+h1 {
+  font-family: Dancing Script, cursive;
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 3rem;
+}
+.logo {
+  width: 45%;
+  position: absolute;
+  @media (max-width: 900px) {
+    width: 70%;
+  }
+
+  @media (max-width: 600px) {
+    width: 80%;
+  }
+}

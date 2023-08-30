@@ -1,0 +1,54 @@
+.portfolioContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  border-radius: 24px;
+}
+.portfolioTitle {
+  width: 100%;
+  display: flex;
+
+  gap: 2vw;
+  justify-content: center;
+  align-items: center;
+}
+.cardContainer {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 40px;
+  margin-top: 30px;
+  max-width: 1000px;
+  grid-template-columns: 1fr 1fr 1fr;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+}
+.cardImage {
+  width: 280px;
+  height: 360px;
+}
+
+.circleImage {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: #e6e7ed;
+  -moz-border-radius: 24px;
+  -webkit-border-radius: 24px;
+  background-image: url("/src/images/ig-logo.jpg");
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}

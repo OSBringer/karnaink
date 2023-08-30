@@ -1,0 +1,24 @@
+$primaryMain: #73513d;
+$primaryLight: #000000;
+$primaryDark: #ba000d;
+$secondaryMain: #ff5722;
+$secondaryLight: #ff8a50;
+$secondaryDark: #c41c00;
+$primaryText: #ffffff;
+$secondaryText: #000000;
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100vw;
+  height: auto;
+}
+.sectionContainer {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
