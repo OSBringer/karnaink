@@ -39,6 +39,9 @@
   height: min-content;
   width: 100%;
   gap: 10px;
+  svg {
+    color: #efbb93;
+  }
 }
 .map {
   grid-row-start: 1;

@@ -116,7 +116,7 @@ export default function Navbar(props: Props) {
                   fontWeight: 400,
                   letterSpacing: ".1rem",
                 }}
-                variant="h5"
+                variant="h6"
               >
                 Karna Ink
               </Typography>

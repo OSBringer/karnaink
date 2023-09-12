@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import CircularProgress from "@mui/material/CircularProgress";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/sk";
 import "dayjs/locale/en";
@@ -19,17 +20,23 @@ interface DatepickerProps {
 function Datepicker(props: DatepickerProps) {
   const [enabledDatetimes, setEnabledDatetimes] = useState<string[]>([]);
   const [locale, setLocale] = useState<LocaleKey>("sk");
+  const [loading, setLoading] = useState(true);
   const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs().add(1, "day"));
 
   useEffect(() => {
     let tmpArray = [];
+    setLoading(true);
     loadTimes().then((res) => {
       res.forEach((datetime) => {
         if (datetime.isAvailable) tmpArray.push(datetime.value);
       });
+      // set to first available time if not in dashboard
 
-      setDate(dayjs(tmpArray[0], "DD.MM.YYYY HH:00"));
-      props?.onAccept(dayjs(tmpArray[0], "DD.MM.YYYY HH:00"));
+      if (!props.isDashboard && tmpArray.length > 0) {
+        setDate(dayjs(tmpArray[0], "DD.MM.YYYY HH:00"));
+        props?.onAccept(dayjs(tmpArray[0], "DD.MM.YYYY HH:00"));
+      }
+      setLoading(false);
     });
     setEnabledDatetimes(tmpArray);
   }, []);
@@ -45,6 +52,7 @@ function Datepicker(props: DatepickerProps) {
     );
     return !enabledDates.includes(formattedDate);
   };
+
   //disable time if not in enabledDatetimes
   const disableTime = (date: dayjs.Dayjs) => {
     if (props.isDashboard) {
@@ -59,25 +67,45 @@ function Datepicker(props: DatepickerProps) {
   };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-      <DateTimePicker
-        value={date}
-        disablePast
-        skipDisabled
-        onAccept={(d) => {
-          props?.onAccept(d);
-          setDate(d);
-        }}
-        onChange={(d) => {
-          props?.onAccept(d);
-          setDate(d);
-        }}
-        label="Termín tetovania"
-        ampm={false}
-        minutesStep={60}
-        shouldDisableTime={disableTime}
-        shouldDisableDate={disableDates}
-        defaultValue={dayjs().add(1, "day")}
-      />
+      {loading ? (
+        <CircularProgress color="inherit" sx={{ margin: "auto" }} />
+      ) : (
+        <Box>
+          <DateTimePicker
+            value={date}
+            disablePast
+            skipDisabled
+            onAccept={(d) => {
+              props?.onAccept(d);
+              setDate(d);
+            }}
+            onChange={(d) => {
+              props?.onAccept(d);
+              setDate(d);
+            }}
+            label="Termín tetovania"
+            ampm={false}
+            minutesStep={60}
+            disabled={
+              (enabledDatetimes.length === 0 ||
+                enabledDatetimes === undefined) &&
+              !props.isDashboard
+            }
+            shouldDisableTime={disableTime}
+            shouldDisableDate={disableDates}
+            defaultValue={dayjs().add(1, "day")}
+          />
+          {(enabledDatetimes.length === 0 || enabledDatetimes === undefined) &&
+          !props.isDashboard ? (
+            <Box>
+              <Typography color="red">
+                {" "}
+                Momentálne niesu volné žiadné termíny
+              </Typography>
+            </Box>
+          ) : null}
+        </Box>
+      )}
     </LocalizationProvider>
   );
 }

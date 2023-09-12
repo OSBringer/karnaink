@@ -15,7 +15,6 @@ export const handleLogout = async () => {
     });
     localStorage.removeItem("authToken");
     //window.location.href = "/";
-    console.log(response);
   } catch (error) {
     console.error(error);
   }
@@ -23,7 +22,6 @@ export const handleLogout = async () => {
 
 export const checkAuthToken = async () => {
   const authToken = localStorage.getItem("authToken");
-  console.log(authToken);
   if (!authToken) {
     return false;
   }
@@ -37,7 +35,6 @@ export const checkAuthToken = async () => {
       },
     });
 
-    console.log(response);
     return true;
   } catch (error) {
     console.error(error);

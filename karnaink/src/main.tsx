@@ -12,12 +12,8 @@ import ErrorPage from "./components/ErrorPage/ErrorPage.tsx";
 import Login from "./components/Login/Login.tsx";
 import ErrorBoundary from "./modules/ErrorBoundary/ErrorBoundary.tsx"; // Import the error boundary component
 import Dashboard from "./components/Dashboard/Dashboard.tsx";
+import Reservation from "./components/Reservation/Reservation.tsx";
 AOS.init();
-
-// import instance from "/src/axiosConfig";.defaults.baseURL = import.meta.env.REACT_APP_BACKEND_URL;
-// import instance from "/src/axiosConfig";.defaults.xsrfCookieName = "csrftoken";
-// import instance from "/src/axiosConfig";.defaults.xsrfHeaderName = "X-CSRFToken";
-// import instance from "/src/axiosConfig";.defaults.headers.post["Content-Type"] = "x-www-form-urlencoded";
 
 const router = createBrowserRouter([
   {
@@ -33,11 +29,14 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
   },
+  {
+    path: "/dashboard/reservation/*", // Specific route should come before the /dashboard route
+    element: <Reservation />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ErrorBoundary>
-    {/* Wrap your main component with the error boundary */}
     <ThemeProvider theme={createTheme(themeOptions)}>
       <React.StrictMode>
         <RouterProvider router={router} />

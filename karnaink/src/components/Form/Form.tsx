@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import {
   FormControl,
   FormGroup,
+  FormLabel,
   Typography,
   TextField,
   Button,
@@ -18,6 +19,7 @@ import {
 import Datepicker from "../../modules/Datepicker/Datepicker";
 import { LoaderContext } from "../../App";
 import { set } from "date-fns";
+import ReCAPTCHA from "react-google-recaptcha";
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
@@ -26,7 +28,7 @@ interface FileItem {
   file: File;
   src: string;
 }
-
+const recaptchaSiteKey = import.meta.env.VITE_APP_RECAPTCHA_SITE_KEY;
 function Form(props) {
   const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
@@ -43,6 +45,8 @@ function Form(props) {
     message: "",
   });
   const [dateTime, setDateTime] = useState(null);
+  const [recaptcha, setRecaptcha] = useState(null);
+
   const handleChange = (type: string, e?: HTMLInputEvent) => {
     if (e?.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -91,6 +95,22 @@ function Form(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!dateTime) {
+      setSnackbarState({
+        open: true,
+        severity: "error",
+        message: "Niej je vybraný dátum",
+      });
+      return;
+    }
+    if (recaptcha === null || !recaptcha) {
+      setSnackbarState({
+        open: true,
+        severity: "error",
+        message: "Prosím potvrďte že nie ste robot",
+      });
+      return;
+    }
 
     const form = document.getElementById("form");
 
@@ -162,6 +182,9 @@ function Form(props) {
         onSubmit={handleSubmit}
       >
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Email
+          </FormLabel>
           <FormGroup>
             <TextField
               label="Email"
@@ -174,6 +197,9 @@ function Form(props) {
           </FormGroup>
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Meno
+          </FormLabel>
           <TextField
             label="Meno"
             name="name"
@@ -184,6 +210,9 @@ function Form(props) {
           />
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Priezvisko
+          </FormLabel>
           <TextField
             label="Priezvisko"
             name="surname"
@@ -194,6 +223,9 @@ function Form(props) {
           />
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Popis tetovania
+          </FormLabel>
           <TextField
             multiline
             name="description"
@@ -240,6 +272,9 @@ function Form(props) {
           </Button>
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Umiestnenie
+          </FormLabel>
           <TextField
             label="Umiestnenie"
             name="placement"
@@ -284,14 +319,21 @@ function Form(props) {
           </Button>
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Rozmer
+          </FormLabel>
           <TextField
             label="Rozmer (cm x cm)"
             required
+            name="ratio"
             id="form-ratio"
             aria-describedby="my-helper-text2"
           />
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Rozpočet na tetovanie
+          </FormLabel>
           <TextField
             required
             name="budget"
@@ -302,6 +344,9 @@ function Form(props) {
           />
         </FormControl>
         <FormControl>
+          <FormLabel component="legend" hidden>
+            Iné poznámky
+          </FormLabel>
           <TextField
             name="other"
             label="Iné poznámky"
@@ -338,7 +383,13 @@ function Form(props) {
             Rezervácia je platná až <u>po potvrdení a zaplatení zálohy</u> v
             sume, ktorá bude určená v potvrdzovacom emaili.
           </Typography>
-          <Button sx={{ marginTop: 5 }} type="submit" variant="contained">
+          <ReCAPTCHA
+            style={{ margin: "auto", marginTop: 10 }}
+            sitekey={recaptchaSiteKey}
+            onChange={(val) => setRecaptcha(val)}
+          />
+          ,
+          <Button sx={{}} type="submit" variant="contained">
             Odoslať rezerváciu
           </Button>
         </FormControl>
@@ -347,6 +398,7 @@ function Form(props) {
       <Snackbar
         open={snackbarState.open}
         autoHideDuration={6000}
+        sx={{ maxWidth: "100%" }}
         onClose={handleSnacbarState}
       >
         <Alert

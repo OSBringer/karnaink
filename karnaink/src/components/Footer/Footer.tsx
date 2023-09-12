@@ -19,7 +19,7 @@ function Footer(props: any) {
           <Box className="iconContainer" sx={{ gridRow: 1 }}>
             <InstagramIcon />
 
-            <Typography>
+            <Typography fontWeight={"bold"}>
               <Link
                 target="_blank"
                 href="https://www.instagram.com/karnaink_tattoo/"
@@ -32,7 +32,7 @@ function Footer(props: any) {
           <Box className="iconContainer" sx={{ gridRow: 2 }}>
             <PhoneIcon />
 
-            <Typography>
+            <Typography fontWeight={"bold"}>
               <Link href="tel+421123456789" sx={{ color: "inherit" }}>
                 +421123456789{" "}
               </Link>
@@ -40,7 +40,7 @@ function Footer(props: any) {
           </Box>
           <Box className="iconContainer" sx={{ gridRow: 3 }}>
             <EmailIcon />
-            <Typography sx={{}}>
+            <Typography fontWeight={"bold"}>
               <Link href="mailto: karnaink@gmail.com" sx={{ color: "inherit" }}>
                 karnaink@gmail.com
               </Link>
@@ -48,7 +48,7 @@ function Footer(props: any) {
           </Box>
           <Box className="iconContainer" sx={{ gridRow: 4 }}>
             <LocationOnIcon />
-            <Typography sx={{ overflow: "auto" }}>
+            <Typography fontWeight={"bold"} sx={{ overflow: "auto" }}>
               Tattoo Lines Studio Národná 3, 010 01 Žilina
             </Typography>
           </Box>

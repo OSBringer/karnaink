@@ -24,9 +24,27 @@ function Logo() {
       className="sectionContainer"
     >
       {fontLoaded && (
-        <h1 data-aos="fade-up" data-aos-easing="ease-in-back">
-          KarnaInk
-        </h1>
+        <div className="logoText">
+          <h1
+            className="mainText"
+            data-aos="fade-up"
+            data-aos-easing="ease-in-back"
+            data-aos-duration="500"
+          >
+            KarnaInk
+          </h1>
+          <Typography
+            className="subText"
+            data-aos-duration="500"
+            data-aos-delay="500"
+            data-aos="zoom-in top-center"
+            data-aos-easing="ease-in-back"
+            sx={{ fontSize: { sm: "1.5rem", md: "2.5rem", lg: "2.5rem" } }}
+            component="div"
+          >
+            Tattoo Studio
+          </Typography>
+        </div>
       )}
 
       <img

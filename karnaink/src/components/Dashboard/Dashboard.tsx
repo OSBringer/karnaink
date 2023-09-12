@@ -12,18 +12,25 @@ import dayjs from "dayjs";
 import instance from "/src/axiosConfig.js";
 import MuiAlert from "@mui/material/Alert";
 import Nonauth from "../../modules/Nonauth/Nonauth";
-import { loadTimes, deleteTime } from "../../utils/api";
+import { loadTimes, deleteTime, deletePastTimes } from "../../utils/api";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import DashboardDialog from "./DashboardDialog";
 function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dialogState, setDialogState] = useState({
+    open: false,
+    state: false,
+    timeObject: null,
+  }); // Add this line
   const [timesArray, setTimesArray] = useState([]);
   const [displayedTimesArray, setDisplayedTimesArray] = useState([]); // Add this line
   const [dateTime, setDateTime] = useState(dayjs().add(1, "day"));
   const [search, setSearch] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState({
+  const [refresh, setRefresh] = useState(false);
+  const [snackbarState, setSnackbarState] = useState({
     state: false,
+    severity: "error",
     message: "",
   });
   const theme = useTheme();
@@ -35,9 +42,11 @@ function Dashboard() {
       return;
     }
 
-    setSnackbarOpen({ state: false, message: "" });
+    setSnackbarState({ state: false, severity: "error", message: "" });
   };
+
   const handleSubmit = () => {
+    setLoading(true);
     instance
       .post(
         "/add_times/",
@@ -51,18 +60,48 @@ function Dashboard() {
         }
       )
       .then((res) => {
-        console.log(res);
+        const updatedArray = displayedTimesArray.map((item) => ({
+          ...item,
+          isNew: false,
+        }));
+        setTimesArray(updatedArray);
+        setSnackbarState({
+          state: true,
+          severity: "success",
+          message: "Časy boli úspešne uložené! 🎉",
+        });
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.warn(err);
+        setLoading(false);
       });
   };
 
   const handleDelte = (timeObject) => {
-    setTimesArray(
-      timesArray.filter((time, index) => time.value !== timeObject.value)
-    );
-    timeObject.isNew ? null : deleteTime(timeObject);
+    setDialogState({ open: true, state: false, timeObject: timeObject });
+  };
+
+  const handleDeletePastTimes = () => {
+    setLoading(true);
+    deletePastTimes()
+      .then((res) => {
+        setRefresh(!refresh);
+        setSnackbarState({
+          state: true,
+          severity: "success",
+          message: "Časy boli úspešne zmazané! ✅",
+        });
+      })
+      .catch((err) => {
+        setRefresh(!refresh);
+        setSnackbarState({
+          state: true,
+          severity: "error",
+          message: "Časy sa nepodarilo zmazať! 😢",
+        });
+        console.warn(err);
+      });
   };
 
   const performAuthCheck = async () => {
@@ -72,22 +111,24 @@ function Dashboard() {
 
   const addTime = () => {
     const formattedDateTime = dateTime.format("DD.MM.YYYY HH:00");
-
     if (timesArray.some((obj) => obj.value === formattedDateTime)) {
-      setSnackbarOpen({
+      setSnackbarState({
         state: true,
+        severity: "error",
         message: `${formattedDateTime} už bol pridaný! 💀`,
       });
       return;
     } else if (dateTime.isBefore(dayjs())) {
-      setSnackbarOpen({
+      setSnackbarState({
         state: true,
+        severity: "error",
         message: `Nieje možné pridať čas z minulosti! 👴`,
       });
       return;
     } else if (dateTime.isAfter(dayjs().add(10, "year"))) {
-      setSnackbarOpen({
+      setSnackbarState({
         state: true,
+        severity: "error",
         message: `Maxímálne 10 rokov dopredu!😢`,
       });
       return;
@@ -107,12 +148,22 @@ function Dashboard() {
           setTimesArray(res);
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
         });
     });
-  }, []);
+  }, [refresh]);
 
   // searchbar
+  useEffect(() => {
+    if (dialogState.state === true) {
+      setTimesArray(
+        timesArray.filter(
+          (time, index) => time.value !== dialogState.timeObject.value
+        )
+      );
+      dialogState.timeObject.isNew ? null : deleteTime(dialogState.timeObject);
+    }
+  }, [dialogState]);
 
   useEffect(() => {
     const updatedList = [...timesArray];
@@ -136,7 +187,7 @@ function Dashboard() {
           />
           <Button
             onClick={() => addTime()}
-            sx={{ minHeight: "60px" }}
+            sx={{ minHeight: "60px", width: "100%" }}
             variant="contained"
           >
             Pridať
@@ -151,11 +202,14 @@ function Dashboard() {
               <Paper
                 key={id}
                 className={`dashboardPaper`}
-                sx={
-                  timeDisplayed.isNew && {
+                sx={{
+                  ...(timeDisplayed.isNew && {
                     bgcolor: theme.palette.attention.light,
-                  }
-                }
+                  }),
+                  ...(!timeDisplayed.isAvailable && {
+                    bgcolor: theme.palette.success.light,
+                  }),
+                }}
                 variant="outlined"
               >
                 {timeDisplayed.value}
@@ -178,17 +232,27 @@ function Dashboard() {
           Uložiť časy{" "}
         </Button>
 
+        <Button
+          sx={{
+            marginTop: "20px",
+          }}
+          variant="contained"
+          onClick={handleDeletePastTimes}
+        >
+          Zmazať časy z minulosti
+        </Button>
+
         <Snackbar
-          open={snackbarOpen.state}
+          open={snackbarState.state}
           autoHideDuration={6000}
           onClose={handleClose}
         >
           <MuiAlert
             onClose={handleClose}
-            severity="error"
+            severity={snackbarState.severity}
             sx={{ width: "100%" }}
           >
-            {snackbarOpen.message}
+            {snackbarState.message}
           </MuiAlert>
         </Snackbar>
       </Box>
@@ -197,6 +261,7 @@ function Dashboard() {
           Logout
         </Button>
       </Box>
+      <DashboardDialog state={dialogState} setState={setDialogState} />
     </Box>
   ) : (
     <Nonauth />

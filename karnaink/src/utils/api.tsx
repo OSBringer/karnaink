@@ -26,3 +26,12 @@ export const deleteTime = async (timeObject) => {
     throw new Error("Could not delete time");
   }
 };
+
+export const deletePastTimes = async () => {
+  const res = await instance.get(`/delete_expired_dates/`);
+  if (res.status === 200) {
+    return true;
+  } else {
+    throw new Error("Could not delete past times");
+  }
+};

@@ -61,7 +61,6 @@ export function filterStringsBySubstring(
   strings: DateObject[],
   substring: string
 ): DateObject[] {
-  console.log(strings);
   const filteredStrings: DateObject[] = strings.filter((s) =>
     s.value.includes(substring)
   );
