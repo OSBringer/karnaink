@@ -1,9 +1,8 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext, ChangeEvent } from "react";
 import { Box } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "../../modules/Alert";
 import "./Form.scss";
-import instance from "/src/axiosConfig";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -14,12 +13,14 @@ import {
   TextField,
   Button,
   Link,
+  AlertColor,
 } from "@mui/material";
 
 import Datepicker from "../../modules/Datepicker/Datepicker";
 import { LoaderContext } from "../../App";
-import { set } from "date-fns";
 import ReCAPTCHA from "react-google-recaptcha";
+import instance from "../../axiosConfig";
+import transImage from "../../images/trans.jpg";
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
@@ -35,7 +36,7 @@ function Form(props) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop()?.split(";").shift();
   };
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const { setLoaderState } = useContext(LoaderContext);
   const [fileDescription, setFileDescription] = useState<FileItem[]>([]);
   const [filePlacement, setFilePlacement] = useState<FileItem[]>([]);
@@ -47,8 +48,8 @@ function Form(props) {
   const [dateTime, setDateTime] = useState(null);
   const [recaptcha, setRecaptcha] = useState(null);
 
-  const handleChange = (type: string, e?: HTMLInputEvent) => {
-    if (e?.target.files && e.target.files.length > 0) {
+  const handleChange = (type: string, e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
 
       const fileArray =
@@ -112,9 +113,9 @@ function Form(props) {
       return;
     }
 
-    const form = document.getElementById("form");
+    const formElement = document.getElementById("form") as HTMLFormElement;
+    const formData = new FormData(formElement);
 
-    const formData = new FormData(form);
     formData.append("dateTime", dateTime.format("DD.MM.YYYY HH:00"));
     // formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
     fileDescription.forEach((file) => {
@@ -124,15 +125,13 @@ function Form(props) {
       formData.append("filePlacement", file.file);
     });
     setLoaderState(true);
-    fetch("http://127.0.0.1:8000/createAppointment/", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": getCookie("csrftoken"), // Include the CSRF token here
-      },
-      body: formData,
-      mode: "cors",
-      credentials: "include",
-    })
+    instance
+      .post("/createAppointment/", formData, {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"), // Include the CSRF token here
+        },
+      })
       .then((data) => {
         setLoaderState(false);
         if (data.status !== 200) {
@@ -164,13 +163,12 @@ function Form(props) {
   return (
     <Box
       sx={{
-        backgroundImage: "url('src/images/trans.jpg')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         display: "flex",
         flexDirection: "column",
       }}
-      className="sectionContainer"
+      className="custom sectionContainer"
     >
       <Box sx={{ marginTop: "50px" }}>
         <h1>Rezervácia</h1>
@@ -403,7 +401,7 @@ function Form(props) {
       >
         <Alert
           onClose={handleSnacbarState}
-          severity={snackbarState.severity}
+          severity={snackbarState.severity as AlertColor}
           sx={{ width: "100%" }}
         >
           {snackbarState.message}

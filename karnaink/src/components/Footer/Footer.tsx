@@ -7,11 +7,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import "./Footer.scss";
-import Map from "../../modules/Map/Map";
 import dayjs from "dayjs";
 
 function Footer(props: any) {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   return (
     <>
       <Box className="footerMain" bgcolor={theme.palette.primary.main}>
@@ -55,7 +54,7 @@ function Footer(props: any) {
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10422.735241570635!2d18.743128!3d49.2255233!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47145d4854a2d045%3A0xbf6d4605569feef8!2sLines%20Tattoo%20Studio%20%C5%BDilina!5e0!3m2!1ssk!2scz!4v1693212861860!5m2!1ssk!2scz"
             style={{ border: 0 }}
-            allowFullScreen=""
+            allowFullScreen={false}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="map"

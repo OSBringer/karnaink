@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import { useTheme } from "@emotion/react";
 function Nonauth() {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   return (
     <Box
       sx={{

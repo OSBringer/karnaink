@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Logo.scss";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-
+import logoImage from "../../images/log.png";
 function Logo() {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function Logo() {
         data-aos="fade-up"
         data-aos-easing="ease-in-back"
         className="logo"
-        src="src/images/log.png"
+        src={logoImage}
         alt="logo"
       />
     </Box>

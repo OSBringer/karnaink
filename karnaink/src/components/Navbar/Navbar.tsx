@@ -48,7 +48,7 @@ function HideOnScroll(props: Props) {
 }
 
 export default function Navbar(props: Props) {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );

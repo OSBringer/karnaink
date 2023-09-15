@@ -1,6 +1,16 @@
-import { ThemeOptions } from "@mui/material/styles";
+import { ThemeOptions, createTheme } from "@mui/material/styles";
 import { lighten } from "@mui/system";
-export const themeOptions: ThemeOptions = {
+
+// Define a custom type for your additional palette options
+interface CustomPaletteOptions {
+  attention: {
+    main: string;
+    light: string;
+  };
+}
+
+// Merge the custom palette options with the existing ThemeOptions
+const themeOptions: ThemeOptions & { palette: CustomPaletteOptions } = {
   palette: {
     mode: "light",
     primary: {
@@ -32,3 +42,5 @@ export const themeOptions: ThemeOptions = {
     fontSize: 16,
   },
 };
+
+export default themeOptions;

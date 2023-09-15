@@ -4,13 +4,14 @@ import { Box, Button, Paper, Snackbar } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import DatePicker from "../../modules/Datepicker/Datepicker";
 import ClearIcon from "@mui/icons-material/Clear";
+
 import Searchbar, {
   filterStringsBySubstring,
 } from "../../modules/Searchbar/Searchbar";
 import "./Dashboard.scss";
 import dayjs from "dayjs";
-import instance from "/src/axiosConfig.js";
-import MuiAlert from "@mui/material/Alert";
+import instance from "../../axiosConfig";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Nonauth from "../../modules/Nonauth/Nonauth";
 import { loadTimes, deleteTime, deletePastTimes } from "../../utils/api";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -33,7 +34,7 @@ function Dashboard() {
     severity: "error",
     message: "",
   });
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -140,7 +141,7 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    performAuthCheck().then((res) => {
+    performAuthCheck().then(() => {
       setLoading(true);
       loadTimes()
         .then((res) => {
@@ -157,9 +158,7 @@ function Dashboard() {
   useEffect(() => {
     if (dialogState.state === true) {
       setTimesArray(
-        timesArray.filter(
-          (time, index) => time.value !== dialogState.timeObject.value
-        )
+        timesArray.filter((time) => time.value !== dialogState.timeObject.value)
       );
       dialogState.timeObject.isNew ? null : deleteTime(dialogState.timeObject);
     }
@@ -249,7 +248,7 @@ function Dashboard() {
         >
           <MuiAlert
             onClose={handleClose}
-            severity={snackbarState.severity}
+            severity={snackbarState.severity as AlertColor}
             sx={{ width: "100%" }}
           >
             {snackbarState.message}

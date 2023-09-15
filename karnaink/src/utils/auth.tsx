@@ -1,4 +1,4 @@
-import instance from "/src/axiosConfig";
+import instance from "../axiosConfig";
 
 export const handleLogout = async () => {
   const authToken = localStorage.getItem("authToken");

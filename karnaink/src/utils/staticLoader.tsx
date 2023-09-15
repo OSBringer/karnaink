@@ -1,4 +1,6 @@
-const pages = import.meta.glob("../images/tattoos/*");
+const pages: Record<string, () => Promise<any>> = import.meta.glob(
+  "../images/tattoos/*"
+);
 
 export default async function loadAndSetRandomImages(
   setImages: (images: string[]) => void
@@ -17,6 +19,5 @@ export default async function loadAndSetRandomImages(
   }
 
   const randomImages = loadedImages.slice(0, 9); // Select the first 9 images
-  console.log(setImages);
   setImages(randomImages);
 }

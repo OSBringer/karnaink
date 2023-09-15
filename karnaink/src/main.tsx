@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 
 import "./index.scss";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { themeOptions } from "./theme.tsx";
+import { ThemeProvider, createTheme, ThemeOptions } from "@mui/material/styles";
+import themeOptions from "./theme.tsx";
 import AOS from "aos";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "aos/dist/aos.css";
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ErrorBoundary>
-    <ThemeProvider theme={createTheme(themeOptions)}>
+    <ThemeProvider theme={createTheme(themeOptions as ThemeOptions)}>
       <React.StrictMode>
         <RouterProvider router={router} />
       </React.StrictMode>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import instance from "/src/axiosConfig";
+import instance from "../../axiosConfig";
 import {
   Box,
   TextField,
@@ -14,7 +14,7 @@ import { useTheme } from "@emotion/react";
 import { checkAuthToken } from "../../utils/auth"; // Update with the actual path
 import "./Login.scss";
 function Login() {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);

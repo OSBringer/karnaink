@@ -7,26 +7,27 @@ import dayjs from "dayjs";
 import instance from "../../axiosConfig.js";
 
 function Reservation() {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const url = window.location.href;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [price, setPrice] = useState(0);
   const [advancePrice, setAdvancePrice] = useState(0);
 
   const handleSubmit = (e) => {
-    let { reservation_id, email, date, time } =
+    const { reservation_id, email, date, time } =
       extractNumberAndEmailFromUrl(url);
-    date = dayjs(date, "YYYY-MM-DD").format("DD.MM.YYYY");
+
+    const formattedDate = dayjs(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     instance
       .post(
         "/send_price/",
         {
           reservation_id,
           email,
-          date,
+          date: formattedDate,
           time,
-          total_price: parseFloat(price),
-          advance_price: parseFloat(advancePrice),
+          total_price: price,
+          advance_price: advancePrice,
         },
         {
           withCredentials: true,
@@ -106,7 +107,7 @@ function Reservation() {
         label="Celková cena"
         placeholder="Cena(euro)"
         type="number"
-        onChange={(e) => setPrice(e.target.value)}
+        onChange={(e) => setPrice(parseFloat(e.target.value))}
         value={price}
       />
       <TextField
@@ -114,7 +115,7 @@ function Reservation() {
         label="Záloha"
         placeholder="Záloha(euro)"
         type="number"
-        onChange={(e) => setAdvancePrice(e.target.value)}
+        onChange={(e) => setAdvancePrice(parseFloat(e.target.value))}
         value={advancePrice}
       />
       <Button

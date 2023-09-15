@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Portfolio = (props: Props) => {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   const [images, setImages] = useState([]);
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
@@ -60,7 +60,7 @@ const Portfolio = (props: Props) => {
             }
             color="text.primary"
           >
-            @karna_ink
+            @karnaink_tattoo
           </Typography>
           <Button
             target="_blank"
@@ -111,7 +111,7 @@ export default Portfolio;
 // import { Box } from "@mui/material";
 // import { useTheme } from "@mui/material/styles";
 // function Portfolio(props: any) {
-//   const theme = useTheme();
+// const theme = useTheme() as any;;
 //   return (
 //     <Box
 //       bgcolor={theme.palette.background.default}

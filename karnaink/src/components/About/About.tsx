@@ -6,9 +6,9 @@ import CardContent from "@mui/material/CardContent";
 import "./About.scss";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-
+import aboutImage from "../../images/about.jpg";
 const About = () => {
-  const theme = useTheme();
+  const theme = useTheme() as any;
   return (
     <Box className="sectionContainer">
       <Box className="aboutWrapper">
@@ -19,7 +19,7 @@ const About = () => {
               <CardMedia
                 sx={{ width: "100%" }}
                 component="img"
-                src="src/images/about.jpg"
+                image={aboutImage}
               />
             </CardActionArea>
           </Card>

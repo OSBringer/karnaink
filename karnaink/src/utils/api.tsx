@@ -1,4 +1,4 @@
-import instance from "/src/axiosConfig";
+import instance from "../axiosConfig";
 export const loadTimes = async () => {
   const res = await instance.get("get_times/");
   if (res.status === 200) {
