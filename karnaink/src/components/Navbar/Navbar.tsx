@@ -174,7 +174,7 @@ export default function Navbar(props: Props) {
                 variant={"outlined"}
                 color="secondary"
               >
-                Portfolio
+                Portfólio
               </Button>
               <Button
                 onClick={() =>

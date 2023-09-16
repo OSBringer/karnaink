@@ -41,12 +41,11 @@ const About = () => {
               zvieratká. Zároveň milujem všetko magické a energetické, temné,
               tmavé a kriminálne 😂🖤
               <br />
-              Mám rada horkú čokoládu, tulipány a črepníkové rastliny a kryštály
-              *wink wink*. Tetujem linkované lesné a prírodne motívy, kvietky,
-              zvieratká a rozvíjať sa chcem najmä v oblasti blackworku. Počas
-              tetovania u mňa budeš počuť hudbu najmä žánru rock a metal. Sem
-              tam mi tam skočí nejaký dubstep, country alebo Jaro Nohavica 😄{" "}
-              <br />
+              Mám rada črepníkové rastliny a kryštály *wink wink*. Tetujem
+              linkované lesné a prírodne motívy, kvietky, zvieratká a rozvíjať
+              sa chcem najmä v oblasti blackworku. Počas tetovania u mňa budeš
+              počuť hudbu najmä žánru rock a metal. Sem tam mi tam skočí nejaký
+              dubstep, country alebo Jaro Nohavica 😄 <br />
               <br /> Teším sa na vás 🖤
             </Typography>
           </Card>

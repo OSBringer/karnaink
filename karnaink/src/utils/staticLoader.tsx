@@ -18,6 +18,6 @@ export default async function loadAndSetRandomImages(
     [loadedImages[i], loadedImages[j]] = [loadedImages[j], loadedImages[i]];
   }
 
-  const randomImages = loadedImages.slice(0, 9); // Select the first 9 images
+  const randomImages = loadedImages.slice(0, 12); // Select the first 9 images
   setImages(randomImages);
 }

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea, useTheme } from "@mui/material";
 import loadAndSetRandomImages from "../../utils/staticLoader";
 import ModalComponent from "../../modules/Modal/Modal";
+import InstagramIcon from "@mui/icons-material/Instagram";
 const url = `/instagram/`;
 
 interface Props {
@@ -42,15 +43,10 @@ const Portfolio = (props: Props) => {
             rel="noreferrer noopener"
             href="https://www.instagram.com/karnaink_tattoo/"
           >
-            <Card sx={{ borderRadius: "55%" }}>
-              <CardActionArea>
-                <CardMedia
-                  sx={{ borderRadius: "50%", height: "50px", width: "50px" }}
-                  className="circleImage"
-                  component="img"
-                />
-              </CardActionArea>
-            </Card>
+            <InstagramIcon
+              sx={{ display: "flex", fontSize: "4rem", textAlign: "center" }}
+              fontSize="large"
+            />
           </Link>
           <Typography
             variant="h6"

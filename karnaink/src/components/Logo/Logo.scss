@@ -5,8 +5,11 @@ h1 {
   font-size: 3rem;
 }
 .logoText {
+  color: #73513d;
+
   .mainText {
-    color: #000;
+    text-shadow: 3px 3px 3px rgba($color: #000000, $alpha: 0.7);
+
     font-size: 15rem;
     z-index: 1;
     margin: 0;
@@ -21,8 +24,8 @@ h1 {
   }
   .subText {
     font-weight: bold;
-    letter-spacing: 3.2rem;
-    margin-right: -3.2rem;
+    letter-spacing: 1.8rem;
+    margin-right: -2rem;
     @media (max-width: 900px) {
       letter-spacing: 2.2rem;
       margin-right: -2.2rem;
@@ -42,8 +45,6 @@ h1 {
   font-weight: 700;
   font-size: 15rem;
   z-index: 1;
-
-  text-shadow: 3px 3px 3px rgba($color: #000000, $alpha: 0.5);
 }
 .logo {
   filter: brightness(0.7);
