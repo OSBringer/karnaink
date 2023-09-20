@@ -1,4 +1,4 @@
-import { ThemeOptions, createTheme } from "@mui/material/styles";
+import { ThemeOptions } from "@mui/material/styles";
 import { lighten } from "@mui/system";
 
 // Define a custom type for your additional palette options

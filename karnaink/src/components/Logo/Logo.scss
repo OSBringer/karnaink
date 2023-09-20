@@ -24,15 +24,23 @@ h1 {
   }
   .subText {
     font-weight: bold;
-    letter-spacing: 1.8rem;
+    letter-spacing: 2rem;
     margin-right: -2rem;
+    @media (max-width: 2000px) {
+      letter-spacing: 0.5rem;
+      margin-right: -0.5rem;
+    }
+    @media (max-width: 1100px) {
+      letter-spacing: 0.2rem;
+      margin-right: -0.2rem;
+    }
     @media (max-width: 900px) {
-      letter-spacing: 2.2rem;
-      margin-right: -2.2rem;
+      letter-spacing: 1rem;
+      margin-right: -1rem;
     }
     @media (max-width: 600px) {
-      letter-spacing: 0.9rem;
-      margin-right: -0.9rem;
+      letter-spacing: 0.2rem;
+      margin-right: -0.2rem;
     }
   }
   position: relative;

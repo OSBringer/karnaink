@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { LoaderContext } from "../../App";
+
 function Loader(props) {
   const { loaderState } = useContext(LoaderContext);
   return (

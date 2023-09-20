@@ -1,6 +1,9 @@
 const pages: Record<string, () => Promise<any>> = import.meta.glob(
   "../images/tattoos/*"
 );
+function isMobile(): boolean {
+  return window.innerWidth <= 600;
+}
 
 export default async function loadAndSetRandomImages(
   setImages: (images: string[]) => void
@@ -18,6 +21,8 @@ export default async function loadAndSetRandomImages(
     [loadedImages[i], loadedImages[j]] = [loadedImages[j], loadedImages[i]];
   }
 
-  const randomImages = loadedImages.slice(0, 12); // Select the first 9 images
+  const randomImages = isMobile()
+    ? loadedImages.slice(0, 8)
+    : loadedImages.slice(0, 12);
   setImages(randomImages);
 }

@@ -50,6 +50,7 @@ const Portfolio = (props: Props) => {
           </Link>
           <Typography
             variant="h6"
+            sx={{ display: { xs: "none", sm: "block" } }}
             fontWeight="fontWeightBold"
             fontFamily={
               "-apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;"
@@ -66,6 +67,25 @@ const Portfolio = (props: Props) => {
           >
             Sledovať
           </Button>
+        </Box>
+        <Box
+          sx={{
+            display: { xs: "flex", sm: "none" },
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <Typography
+            variant="h6"
+            fontWeight="fontWeightBold"
+            fontFamily={
+              "-apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;"
+            }
+            color="text.primary"
+          >
+            @karnaink_tattoo
+          </Typography>
         </Box>
         <Box className="cardContainer">
           {images.map((base64Image, index) => (

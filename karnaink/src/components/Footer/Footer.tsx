@@ -41,7 +41,7 @@ function Footer(props: any) {
             <EmailIcon />
             <Typography fontWeight={"bold"}>
               <Link href="mailto: karnaink@gmail.com" sx={{ color: "inherit" }}>
-                karnaink@gmail.com
+                karnaink.tattoo@gmail.com
               </Link>
             </Typography>
           </Box>
